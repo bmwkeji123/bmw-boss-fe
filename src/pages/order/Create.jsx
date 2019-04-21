@@ -3,21 +3,16 @@ import IceContainer from '@icedesign/container';
 import {
   Input,
   Button,
-  Checkbox,
   Select,
   DatePicker,
-  Switch,
-  Radio,
-  Grid,
+  Field,
   Form,
   Upload,
 } from '@alifd/next';
 
-const { Row, Col } = Grid;
+import RegionSelector from '../../components/RegionSelector';
+import WharfSelector from '../../components/WharfSelector';
 
-// FormBinder 用于获取表单组件的数据，通过标准受控 API value 和 onChange 来双向操作数据
-const CheckboxGroup = Checkbox.Group;
-const RadioGroup = Radio.Group;
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
@@ -27,31 +22,17 @@ const formItemLayout = {
   wrapperCol: { s: "14", l: "12", }
 };
 
-export default class App extends Component {
+export default class OrderCreate extends Component {
   static displayName = 'OrderCreate';
 
   static defaultProps = {};
 
+  field = new Field(this);
+
   constructor(props) {
     super(props);
-    this.state = {
-      value: {
-        name: 'test',
-        area: 'location1',
-        time: [],
-        delivery: false,
-        type: ['地推活动'],
-        resource: '线下场地免费',
-        extra: '',
-      },
-    };
-  }
 
-  onFormChange = (value) => {
-    this.setState({
-      value,
-    });
-  };
+  }
 
   reset = () => {
 
@@ -66,71 +47,38 @@ export default class App extends Component {
   };
 
   render() {
+
+    const init = this.field.init;
+
     return (
       <div className="create-order-form">
         <IceContainer title="录单" style={styles.container}>
           <Form
-            value={this.state.value}
-            onChange={this.onFormChange}
+            field={this.field}
           >
               <h4>基本信息</h4>
               <FormItem {...formItemLayout} label="客户名称："
                 required
                 requiredMessage="客户名称必须填写"
               >
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('entname')} style={{ width: '100%' }} />
               </FormItem>
 
               <FormItem {...formItemLayout} label="还柜码头：">
-                <Select
-                  name="area"
-                  dataSource={[
-                    { label: '港口', value: 'location1' },
-                    { label: '区域二', value: 'location2' },
-                  ]}
-                />
-                &nbsp;&nbsp;
-                <Select
-                  name="area"
-                  dataSource={[
-                    { label: '码头', value: 'location1' },
-                    { label: '区域二', value: 'location2' },
-                  ]}
-                />
+                <WharfSelector {...init('wharf')} />
               </FormItem>
 
               <FormItem {...formItemLayout} label="装货地：">
-                <Select
-                  name="area"
-                  dataSource={[
-                    { label: '省', value: 'location1' },
-                    { label: '区域二', value: 'location2' },
-                  ]}
-                />
-                &nbsp;&nbsp;
-                <Select
-                  name="area"
-                  dataSource={[
-                    { label: '市', value: 'location1' },
-                    { label: '区域二', value: 'location2' },
-                  ]}
-                />
-                &nbsp;&nbsp;
-                <Select
-                  name="area"
-                  dataSource={[
-                    { label: '区', value: 'location1' },
-                    { label: '区域二', value: 'location2' },
-                  ]}
-                />
-                <br />
-                <br />
-                <Input name="name" style={{ width: '100%' }} placeholder="详情地址" />
+                <RegionSelector {...init('loadingaddress')} />
+              </FormItem>
+
+              <FormItem {...formItemLayout} label=" ">
+                <Input {...init('loadingaddressinfo')} style={{ width: '100%' }} placeholder="详细地址" />
               </FormItem>
 
               <FormItem {...formItemLayout} label="柜型：">
                 <Select
-                  name="area"
+                  {...init('containerno')}
                   dataSource={[
                     { label: '请选择', value: 'location1' },
                     { label: '区域二', value: 'location2' },
@@ -139,19 +87,20 @@ export default class App extends Component {
               </FormItem>
 
               <FormItem {...formItemLayout} label="货物毛重(KG)：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
 
               <FormItem {...formItemLayout} label="预约到厂提柜时间：" >
-                <RangePicker name="time" showTime />
+                <RangePicker {...init('goodsweight')} showTime />
               </FormItem>
 
               <FormItem {...formItemLayout} label="SO提单号：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('sono')} style={{ width: '100%' }} />
               </FormItem>
 
               <FormItem {...formItemLayout} label="做柜文件：">
                 <Upload
+                    {...init('containerfile')}
                     action="https://www.easy-mock.com/mock/5b713974309d0d7d107a74a3/alifd/upload"
                     multiple
                 >
@@ -160,31 +109,31 @@ export default class App extends Component {
               </FormItem>
               <h4>本单联系人</h4>
               <FormItem {...formItemLayout} label="本单联系人：" help="用于确定做柜以及后续沟通的联系人">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
               <FormItem {...formItemLayout} label="联系人电话：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
               <FormItem {...formItemLayout} label="联系人邮箱：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
 
               <h4>装货联系人</h4>
               <FormItem {...formItemLayout} label="装货工厂名称：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
               <FormItem {...formItemLayout} label="装货联系人：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
               <FormItem {...formItemLayout} label="联系人电话：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
               <FormItem {...formItemLayout} label="联系人邮箱：">
-                <Input name="name" style={{ width: '100%' }} />
+                <Input {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
 
               <FormItem {...formItemLayout} label="备注：">
-                <Input.TextArea name="extra" style={{ width: '100%' }} />
+                <Input.TextArea {...init('goodsweight')} style={{ width: '100%' }} />
               </FormItem>
 
               <FormItem {...formItemLayout} label=" ">

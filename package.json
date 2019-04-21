@@ -20,6 +20,7 @@
     "@icedesign/img": "^1.x",
     "@icedesign/layout": "^1.x",
     "@icedesign/theme": "^1.x",
+    "axios": "^0.18.0",
     "classnames": "^2.2.5",
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.23.0",
