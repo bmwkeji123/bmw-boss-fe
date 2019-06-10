@@ -8,6 +8,8 @@ import {
   FormError as IceFormError,
 } from '@icedesign/form-binder';
 import IceIcon from '@icedesign/foundation-symbol';
+import axios from 'axios';
+import qs from 'qs';
 
 const { Row, Col } = Grid;
 
@@ -38,14 +40,25 @@ class UserLogin extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.refs.form.validateAll((errors, values) => {
+    this.refs.form.validateAll(async (errors, values) => {
       if (errors) {
         console.log('errors', errors);
         return;
       }
-      console.log(values);
-      Message.success('登录成功');
-      this.props.history.push('/');
+
+      const result = await axios.post('/api-token-auth/', qs.stringify(values), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      if (result.status === 200 && result.data.token) {
+        Message.success('登录成功');
+        localStorage.setItem('bmwToken', result.data.token);
+        this.props.history.push('/');
+      } else {
+        Message.error(`登录失败[${JSON.stringify(result.data)}]`);
+      }
     });
   };
 
@@ -83,13 +96,13 @@ class UserLogin extends Component {
               </Col>
             </Row>
 
-            <Row className="formItem">
+            {/* <Row className="formItem">
               <Col>
                 <IceFormBinder name="checkbox">
                   <Checkbox className="checkbox">记住账号</Checkbox>
                 </IceFormBinder>
               </Col>
-            </Row>
+            </Row> */}
 
             <Row className="formItem">
               <Button

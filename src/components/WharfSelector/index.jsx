@@ -13,15 +13,15 @@ class WharfSelector extends Component {
       <div>
         <Select
           dataSource={[
-            { label: '港口', value: 'location1' },
-            { label: '区域二', value: 'location2' },
+            { label: '深圳', value: 'shenzhen' },
           ]}
         />
         &nbsp;&nbsp;
         <Select
           dataSource={[
-            { label: '码头', value: 'location1' },
-            { label: '区域二', value: 'location2' },
+            { label: 'yantian', value: 1 },
+            { label: 'mawan', value: 2 },
+            { label: 'shekou', value: 3 },
           ]}
         />
       </div>

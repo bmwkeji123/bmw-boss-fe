@@ -1,0 +1,29 @@
+.formItem {
+  margin-bottom: 16px;
+
+  .formItemLabel {
+    text-align: right;
+    padding-right: 12px;
+    color: #666;
+    line-height: 32px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .formItemLabel label[required]:before {
+    margin-right: 4px;
+    content: "*";
+    color: #FF3000;
+  }
+
+  .formItemHelp {
+    margin-top: 4px;
+    font-size: 10px;
+    line-height: 1.5;
+    color: #999;
+  }
+
+  .formItemError {
+
+  }
+}

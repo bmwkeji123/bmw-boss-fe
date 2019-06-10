@@ -21,11 +21,11 @@ const asideMenuConfig = [
     path: '/order/list',
     icon: 'ul-list',
   },
-  {
+  /* {
     name: '对帐结算',
     path: '/contract/my',
     icon: 'coupons',
-  },
+  }, */
 ];
 
 export { headerMenuConfig, asideMenuConfig };
