@@ -10,7 +10,7 @@ export default class Header extends PureComponent {
   render() {
     return (
       <div className={styles.headerContainer}>
-        <h1 className={styles.logo}>弼马温BOSS</h1>
+        <h1 className={styles.logo}>BOSS</h1>
         <div className={styles.rightContainer}>
           {/* Header 菜单项 begin */}
           {headerMenuConfig && headerMenuConfig.length > 0 ? (

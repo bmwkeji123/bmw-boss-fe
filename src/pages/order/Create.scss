@@ -1,19 +1,25 @@
 .formItem {
   margin-bottom: 16px;
+  display: flex;
+  align-items: normal;
 
   .formItemLabel {
     text-align: right;
     padding-right: 12px;
     color: #666;
     line-height: 32px;
-    display: inline-block;
-    vertical-align: top;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .formItemLabel label[required]:before {
     margin-right: 4px;
     content: "*";
     color: #FF3000;
+  }
+
+  .formItemControl {
+
   }
 
   .formItemHelp {

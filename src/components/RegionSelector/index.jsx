@@ -11,19 +11,18 @@ class RegionSelector extends Component {
 
   constructor(props) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
-}
+  }
 
   handleChange(value, data, extra) {
-    console.log(value, data, extra);
+    this.props.onChange(extra.selectedPath.map(item => item.value));
   }
 
   render() {
 
     return (
       <div>
-        <CascaderSelect style={{ width: '100%' }} placeholder="请选择省市区" dataSource={regionsData} onChange={this.handleChange} />
+        <CascaderSelect style={{ width: '100%' }} placeholder="请选择省市区" value={this.props.value} dataSource={regionsData} onChange={this.handleChange} />
       </div>
     );
   }

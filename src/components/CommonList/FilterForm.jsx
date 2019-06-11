@@ -18,8 +18,8 @@ import {
 const { Row, Col } = Grid;
 const { RangePicker } = DatePicker;
 
-class CustomForm extends Component {
-  static displayName = 'CustomForm';
+class FilterForm extends Component {
+  static displayName = 'FilterForm';
 
   static propTypes = {
     value: PropTypes.object.isRequired,
@@ -138,11 +138,11 @@ class CustomForm extends Component {
               >
                 搜 索
               </Button>
-              <Button type="normal" onClick={handleReset}>
+              <Button type="normal" style={{ marginRight: '10px' }} onClick={handleReset}>
                 重 置
               </Button>
+              {extraContent}
             </div>
-            {extraContent}
           </div>
         </IceFormBinderWrapper>
       </div>
@@ -165,8 +165,8 @@ const styles = {
   },
   buttons: {
     margin: '10px 0 20px',
-    textAlign: 'center',
+    textAlign: 'right',
   },
 };
 
-export default CustomForm;
+export default FilterForm;

@@ -5,23 +5,8 @@ import { Table, Pagination, Button, Message } from '@alifd/next';
 import SearchFilter from './SearchFilter';
 import styles from './index.module.scss';
 
-const defaultSearchQuery = {
-  id: '',
-  archiveId: '',
-  applyCode: '',
-  name: '',
-  otherCompany: '',
-  principal: '',
-  createTime: [],
-  signTime: [],
-  endTime: [],
-  state: '',
-  type: '',
-  checkbox: 'false',
-};
-
-export default class ContractTable extends Component {
-  static displayName = 'ContractTable';
+export default class CommonList extends Component {
+  static displayName = 'CommonList';
 
   static propTypes = {
     enableFilter: PropTypes.bool,
@@ -37,7 +22,7 @@ export default class ContractTable extends Component {
     super(props);
     this.state = {
       loading: true,
-      searchQuery: cloneDeep(defaultSearchQuery),
+      searchQuery: cloneDeep(this.props.filterValue),
       pageIndex: 1,
       dataSource: [],
     };
@@ -52,7 +37,7 @@ export default class ContractTable extends Component {
       this.setState(
         {
           searchQuery: Object.assign(
-            cloneDeep(defaultSearchQuery),
+            cloneDeep(this.props.filterValue),
             nextProps.searchQueryHistory
           ),
           pageIndex: 1,
@@ -108,7 +93,7 @@ export default class ContractTable extends Component {
 
   onSearchReset = () => {
     this.setState({
-      searchQuery: cloneDeep(defaultSearchQuery),
+      searchQuery: cloneDeep(this.props.filterValue),
     });
   };
 
@@ -121,93 +106,8 @@ export default class ContractTable extends Component {
     );
   };
 
-  renderState = (value) => {
-    return (
-      <div className={styles.state}>
-        <span className={styles.stateText}>{value}</span>
-      </div>
-    );
-  };
-
-  renderOper = () => {
-    return (
-      <div>
-        <Button
-          text
-          onClick={() => {
-            Message.success('修改合同');
-          }}
-        >
-          修改合同
-        </Button>
-        <span className={styles.separator} />
-        <Button
-          text
-          onClick={() => {
-            Message.success('查看详情');
-          }}
-        >
-          查看详情
-        </Button>
-      </div>
-    );
-  };
-
   getTableColumns = () => {
-    return [
-      {
-        title: '合同编号',
-        dataIndex: 'id',
-        key: 'id',
-        lock: true,
-        width: 100,
-      },
-      {
-        title: '合同名称',
-        dataIndex: 'name',
-        key: 'name',
-        lock: true,
-        width: 100,
-      },
-      {
-        title: '我方公司',
-        dataIndex: 'ourCompany',
-        key: 'ourCompany',
-        width: 160,
-      },
-      {
-        title: '对方公司',
-        dataIndex: 'otherCompany',
-        key: 'otherCompany',
-        width: 160,
-      },
-      {
-        title: '合同金额',
-        dataIndex: 'amount',
-        key: 'amount',
-        width: 100,
-      },
-      {
-        title: '币种',
-        dataIndex: 'currency',
-        key: 'currency',
-        width: 60,
-      },
-      {
-        title: '合同状态',
-        dataIndex: 'state',
-        key: 'state',
-        cell: this.renderState,
-        width: 100,
-      },
-      {
-        title: '操作',
-        dataIndex: 'detail',
-        key: 'detail',
-        cell: this.renderOper,
-        width: 200,
-      },
-    ];
+    return this.props.colConfig;
   };
 
   render() {
@@ -222,6 +122,7 @@ export default class ContractTable extends Component {
             onChange={this.onSeacrhChange}
             onSubmit={this.onSearchSubmit}
             onReset={this.onSearchReset}
+            filterConfig={this.props.filterConfig}
           />
         )}
         <Table dataSource={dataSource} hasBorder={false} loading={loading}>
@@ -242,6 +143,8 @@ export default class ContractTable extends Component {
         <Pagination
           className={styles.pagination}
           current={pageIndex}
+          total={dataSource.length}
+          totalRender={total => `共计 ${total} 条`}
           onChange={this.onPaginationChange}
         />
       </div>
