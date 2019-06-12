@@ -162,9 +162,9 @@ export default class OrderCreate extends Component {
                 <FormBinder name="containertype" required message="请输入正确的柜型" >
                   <Select
                     dataSource={[
-                      { label: '20', value: 1 },
-                      { label: '30', value: 2 },
-                      { label: '40', value: 3 },
+                      { label: '20GP', value: 1 },
+                      { label: '30GP', value: 2 },
+                      { label: '40GP', value: 3 },
                     ]}
                   />
                 </FormBinder>

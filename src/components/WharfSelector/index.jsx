@@ -20,9 +20,9 @@ class WharfSelector extends Component {
         &nbsp;&nbsp;
         <Select
           dataSource={[
-            { label: 'yantian', value: 1 },
-            { label: 'mawan', value: 2 },
-            { label: 'shekou', value: 3 },
+            { label: '盐田', value: 1 },
+            { label: '妈湾', value: 2 },
+            { label: '蛇口', value: 3 },
           ]}
           value={this.props.value}
           onChange={(value, actionType, item) => this.props.onChange(value)}

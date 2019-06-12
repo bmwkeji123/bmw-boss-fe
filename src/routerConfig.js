@@ -4,9 +4,6 @@
 
 import UserLogin from './pages/UserLogin';
 import UserRegister from './pages/UserRegister';
-import ContractCenter from './pages/ContractCenter';
-import MyContract from './pages/MyContract';
-import ContractSearch from './pages/ContractSearch';
 import OrderCreatePage from './pages/order/Create';
 import OrderListPage from './pages/order/List';
 
@@ -18,18 +15,6 @@ const routerConfig = [
   {
     path: '/user/register',
     component: UserRegister,
-  },
-  {
-    path: '/contract/my',
-    component: MyContract,
-  },
-  {
-    path: '/contract/search',
-    component: ContractSearch,
-  },
-  {
-    path: '/contract/index',
-    component: ContractCenter,
   },
   {
     path: '/order/create',

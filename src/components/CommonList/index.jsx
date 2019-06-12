@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import PropTypes from 'prop-types';
 import { Table, Pagination, Button, Message } from '@alifd/next';
+import axios from '../../utils/http';
 import SearchFilter from './SearchFilter';
 import styles from './index.module.scss';
 
@@ -10,12 +11,10 @@ export default class CommonList extends Component {
 
   static propTypes = {
     enableFilter: PropTypes.bool,
-    searchQueryHistory: PropTypes.object,
   };
 
   static defaultProps = {
     enableFilter: true,
-    searchQueryHistory: null,
   };
 
   constructor(props) {
@@ -23,8 +22,10 @@ export default class CommonList extends Component {
     this.state = {
       loading: true,
       searchQuery: cloneDeep(this.props.filterValue),
-      pageIndex: 1,
-      dataSource: [],
+      page: 1,
+      pageSize: 20,
+      total: 0,
+      list: [],
     };
   }
 
@@ -33,46 +34,40 @@ export default class CommonList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.hasOwnProperty('searchQueryHistory')) {
-      this.setState(
-        {
-          searchQuery: Object.assign(
-            cloneDeep(this.props.filterValue),
-            nextProps.searchQueryHistory
-          ),
-          pageIndex: 1,
-        },
-        this.fetchDataSource
-      );
-    }
+
   }
 
-  fetchDataSource = () => {
+  fetchDataSource = async () => {
     this.setState({
       loading: true,
     });
 
-    // 根据当前的 searchQuery/pageIndex 获取列表数据，使用 setTimeout 模拟异步请求
-    // const { searchQuery, pageIndex } = this.state;
+    const { page } = this.state;
+    const { baseConfig: { api, reqCallback, resCallback, } } = this.props;
 
-    setTimeout(() => {
-      const dataSource = Array.from({ length: 20 }).map((item, index) => {
-        return {
-          id: `00000${index}`,
-          name: '聘用合同',
-          ourCompany: '杭州xxx科技有限公司',
-          otherCompany: '上海xxx科技有限公司',
-          amount: '999,999',
-          currency: 'CNY',
-          state: '签约中',
-        };
-      });
+    let { searchQuery } = this.state;
 
+    if (reqCallback) {
+      searchQuery = reqCallback(searchQuery);
+    }
+
+    let result = await axios.get(api, searchQuery);
+
+    if (resCallback) {
+      result = resCallback(result);
+    }
+
+    this.setState({
+      loading: false,
+    });
+
+    if (result) {
       this.setState({
-        loading: false,
-        dataSource,
+        total: result.count,
+        list: result.results,
       });
-    }, 1 * 1000);
+    }
+
   };
 
   onSearchChange = (searchQuery) => {
@@ -85,7 +80,7 @@ export default class CommonList extends Component {
     this.setState(
       {
         searchQuery,
-        pageIndex: 1,
+        page: 1,
       },
       this.fetchDataSource
     );
@@ -100,7 +95,7 @@ export default class CommonList extends Component {
   onPaginationChange = (pageIndex) => {
     this.setState(
       {
-        pageIndex,
+        page: pageIndex,
       },
       this.fetchDataSource
     );
@@ -112,7 +107,7 @@ export default class CommonList extends Component {
 
   render() {
     const { enableFilter } = this.props;
-    const { searchQuery, dataSource, loading, pageIndex } = this.state;
+    const { searchQuery, list, loading, page, pageSize, total } = this.state;
 
     return (
       <div>
@@ -125,7 +120,7 @@ export default class CommonList extends Component {
             filterConfig={this.props.filterConfig}
           />
         )}
-        <Table dataSource={dataSource} hasBorder={false} loading={loading}>
+        <Table dataSource={list} hasBorder={false} loading={loading}>
           {this.getTableColumns().map((item) => {
             return (
               <Table.Column
@@ -142,9 +137,10 @@ export default class CommonList extends Component {
         </Table>
         <Pagination
           className={styles.pagination}
-          current={pageIndex}
-          total={dataSource.length}
-          totalRender={total => `共计 ${total} 条`}
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          totalRender={count => `共计 ${count} 条`}
           onChange={this.onPaginationChange}
         />
       </div>

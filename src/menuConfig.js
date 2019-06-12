@@ -18,7 +18,7 @@ const asideMenuConfig = [
   },
   {
     name: '订单列表',
-    path: '/order/list',
+    path: '/order/list?status=1',
     icon: 'ul-list',
   },
   /* {
