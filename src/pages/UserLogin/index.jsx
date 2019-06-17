@@ -54,8 +54,13 @@ class UserLogin extends Component {
 
       if (result.status === 200 && result.data.token) {
         Message.success('登录成功');
+
         localStorage.setItem('bmwToken', result.data.token);
-        this.props.history.push('/');
+
+        const params = new URLSearchParams(this.props.location.search);
+        const returnUrl = params.get('returnUrl');
+
+        this.props.history.push(returnUrl ? decodeURIComponent(returnUrl) : '/');
       } else {
         Message.error(`登录失败[${JSON.stringify(result.data)}]`);
       }

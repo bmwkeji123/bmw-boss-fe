@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Tab, Button, Balloon } from '@alifd/next';
 import IceContainer from '@icedesign/container';
-import CommonList from '../../components/CommonList';
-import { containerTypeData, wharfData } from './enum';
+import CommonList from '../../../components/CommonList';
+import { containerTypeData, wharfData } from '../../../common/enum';
 
 @withRouter
 export default class App extends Component {
@@ -13,11 +13,11 @@ export default class App extends Component {
     super(props);
 
     this.baseConfig = {
-      api: '/api/ordersearch/',
-      reqCallback: (req) => {
+      api: '/api/order_search/',
+      reqCallback: (req) => {console.log(req);
         return req;
       },
-      resCallback: (res) => {
+      resCallback: (res) => {console.log(res);
         return res;
       },
     };
@@ -30,7 +30,7 @@ export default class App extends Component {
           placeholder: '请输入提单号',
         },
         formBinderProps: {
-          name: 'orderid',
+          name: 'sono',
           required: false,
           message: '请输入正确的提单号',
         },
@@ -46,13 +46,13 @@ export default class App extends Component {
         },
       },
       {
-        label: '提单时间',
+        label: '做箱时间',
         component: 'RangePicker',
         componentProps: {
           placeholder: '请选择提单时间',
         },
         formBinderProps: {
-          name: 'signTime',
+          name: 'loadingTime',
         },
       },
     ];
@@ -94,8 +94,8 @@ export default class App extends Component {
       },
       {
         title: '做箱时间',
-        dataIndex: 'loadingtime',
-        key: 'loadingtime',
+        dataIndex: 'orderloadingtime',
+        key: 'orderloadingtime',
         width: 100,
       },
       {
@@ -132,6 +132,16 @@ export default class App extends Component {
         width: 100,
       },
     ];
+
+    console.log('a1');
+  }
+
+  componentDidMount() {
+    console.log('a2');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, 'a3');
   }
 
   renderContainerType = (value, index, record) => {
@@ -206,12 +216,10 @@ export default class App extends Component {
   };
 
   render() {
+    console.log('a4');
     const params = new URLSearchParams(this.props.location.search);
 
     const filterValue = {
-      orderid: '',
-      min_createtime: '',
-      max_createtime: '',
       orderstatus: params.get('status'),
     };
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import IceContainer from '@icedesign/container';
 import {
   Input,
@@ -7,16 +8,16 @@ import {
   Button,
   Dialog,
   Grid,
-  Message
+  Message,
 } from '@alifd/next';
 import { FormBinderWrapper, FormBinder, FormError } from '@icedesign/form-binder';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
-import axios from '../../utils/http';
+import axios from '../../../utils/http';
 
-import RegionSelector from '../../components/RegionSelector';
-import WharfSelector from '../../components/WharfSelector';
+import RegionSelector from '../../../components/RegionSelector';
+import WharfSelector from '../../../components/WharfSelector';
 
 import './Create.scss';
 
@@ -30,6 +31,7 @@ const formItemLayout = {
   wrapperCol: { s: '14', l: '12' },
 };
 
+@withRouter
 export default class OrderCreate extends Component {
   static displayName = 'OrderCreate';
 
@@ -186,7 +188,7 @@ export default class OrderCreate extends Component {
 
             <Row className="formItem">
               <Col {...formItemLayout.labelCol} className="formItemLabel">
-                <label required>预约到厂提柜时间：</label>
+                <label required>做箱时间：</label>
               </Col>
               <Col {...formItemLayout.wrapperCol} className="formItemControl">
                 <FormBinder name="orderloadingtime" required message="请输入正确的预约到厂提柜时间：" getFieldValue={(value) => { return moment(value).format('YYYY-MM-DD HH:mm:ss'); }}>

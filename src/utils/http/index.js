@@ -24,11 +24,13 @@ instance.interceptors.response.use((response) => {
 
   if (error.response.status === 401 || error.response.status === 403) {
 
+    const returnUrl = location.hash.indexOf('#') !== -1 ? location.hash.split('#')[1] : '';
+
     Dialog.confirm({
       title: '提示',
       content: '登录校验失败，是否跳去登录？',
       onOk: () => {
-        location.hash = '/user/login';
+        location.hash = `/user/login${returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ''}`;
       },
       onCancel: () => {},
     });

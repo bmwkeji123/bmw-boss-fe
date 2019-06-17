@@ -27,6 +27,7 @@ export default class CommonList extends Component {
       total: 0,
       list: [],
     };
+    console.log(1);
   }
 
   componentDidMount() {
@@ -34,7 +35,7 @@ export default class CommonList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    console.log(nextProps, 'nextProps');
   }
 
   fetchDataSource = async () => {
@@ -51,7 +52,9 @@ export default class CommonList extends Component {
       searchQuery = reqCallback(searchQuery);
     }
 
-    let result = await axios.get(api, searchQuery);
+    let result = await axios.get(api, {
+      params: searchQuery,
+    });
 
     if (resCallback) {
       result = resCallback(result);

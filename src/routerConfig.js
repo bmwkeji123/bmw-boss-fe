@@ -4,8 +4,9 @@
 
 import UserLogin from './pages/UserLogin';
 import UserRegister from './pages/UserRegister';
-import OrderCreatePage from './pages/order/Create';
-import OrderListPage from './pages/order/List';
+import OrderCreatePage from './pages/order/create/Create';
+import OrderListPage from './pages/order/list/List';
+import OrderDetailPage from './pages/order/detail';
 
 const routerConfig = [
   {
@@ -23,6 +24,10 @@ const routerConfig = [
   {
     path: '/order/list',
     component: OrderListPage,
+  },
+  {
+    path: '/order/detail',
+    component: OrderDetailPage,
   },
 ];
 
